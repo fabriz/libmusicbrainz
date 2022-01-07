@@ -43,8 +43,8 @@ ADD_CUSTOM_COMMAND(
 
 ADD_CUSTOM_TARGET(src_gen DEPENDS mb5_c.h)
 
-ADD_LIBRARY(musicbrainz5cc SHARED ${_sources_cc})
-ADD_LIBRARY(musicbrainz5 SHARED ${_sources_c})
+ADD_LIBRARY(musicbrainz5cc ${_sources_cc})
+ADD_LIBRARY(musicbrainz5 ${_sources_c})
 
 SET_TARGET_PROPERTIES(musicbrainz5cc PROPERTIES
     VERSION ${musicbrainz5_VERSION}

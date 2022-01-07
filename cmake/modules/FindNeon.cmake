@@ -10,7 +10,11 @@ FIND_PATH(NEON_INCLUDE_DIR ne_request.h
     PATH_SUFFIXES neon
 )
 
-FIND_LIBRARY(NEON_LIBRARIES neon
+FIND_LIBRARY(NEON_LIBRARIES
+    NAMES
+    neon
+    libneon
+    PATHS
     ${PKG_NEON_LIBRARY_DIRS}
     /usr/lib
     /usr/local/lib
