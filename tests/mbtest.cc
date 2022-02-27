@@ -25,8 +25,6 @@
 
 #include <iostream>
 
-#include <strings.h>
-
 #include "musicbrainz5/Query.h"
 #include "musicbrainz5/Release.h"
 #include "musicbrainz5/ReleaseGroup.h"
