@@ -25,6 +25,7 @@ ENDIF(CMAKE_CROSSCOMPILING)
 IF(NOT CMAKE_CROSSCOMPILING)
 	ADD_EXECUTABLE(make-c-interface make-c-interface.cc xmlParser.cc)
 	TARGET_LINK_LIBRARIES(make-c-interface ${LIBXML2_LIBRARIES})
+	TARGET_COMPILE_DEFINITIONS(make-c-interface PRIVATE ${LIBXML2_DEFINES})
 ENDIF(NOT CMAKE_CROSSCOMPILING)
 
 # export the generator target to a file, so it can be imported (see above) by another build
@@ -45,6 +46,9 @@ ADD_CUSTOM_TARGET(src_gen DEPENDS mb5_c.h)
 
 ADD_LIBRARY(musicbrainz5cc ${_sources_cc})
 ADD_LIBRARY(musicbrainz5 ${_sources_c})
+
+TARGET_COMPILE_DEFINITIONS(musicbrainz5cc PUBLIC ${LIBXML2_DEFINES})
+TARGET_COMPILE_DEFINITIONS(musicbrainz5 PUBLIC ${LIBXML2_DEFINES})
 
 SET_TARGET_PROPERTIES(musicbrainz5cc PROPERTIES
     VERSION ${musicbrainz5_VERSION}
@@ -71,7 +75,7 @@ TARGET_LINK_LIBRARIES(musicbrainz5cc ${NEON_LIBRARIES} ${LIBXML2_LIBRARIES})
 TARGET_LINK_LIBRARIES(musicbrainz5 musicbrainz5cc)
 
 IF(WIN32)
-    TARGET_LINK_LIBRARIES(musicbrainz5 wsock32 winmm ws2_32)
+	TARGET_LINK_LIBRARIES(musicbrainz5 wsock32 winmm ws2_32)
 ENDIF(WIN32)
 
 IF(CMAKE_COMPILER_IS_GNUCXX)

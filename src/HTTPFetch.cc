@@ -36,6 +36,7 @@
 #include "ne_string.h"
 #include "ne_request.h"
 
+#if defined(LIBMUSICBRAINZ5_SHARED)
 #if defined(__GNUC__)
 __attribute__((constructor))
 #else
@@ -55,6 +56,7 @@ static void destroy_neon()
 {
 	ne_sock_exit();
 }
+#endif
 
 class MusicBrainz5::CHTTPFetchPrivate
 {
