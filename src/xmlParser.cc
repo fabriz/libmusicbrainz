@@ -69,7 +69,7 @@ XMLNode *XMLRootNode::parseString(const std::string &xml, XMLResults* results)
 {
     xmlDocPtr doc;
 
-    doc = xmlParseMemory(xml.c_str(), xml.length());
+    doc = xmlParseMemory(xml.c_str(), static_cast<int>(xml.length()));
     if ((doc == NULL) && (results != NULL)) {
         xmlErrorPtr error = xmlGetLastError();
         results->message = error->message;
