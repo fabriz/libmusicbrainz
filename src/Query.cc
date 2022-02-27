@@ -36,9 +36,9 @@
 #include <iostream>
 #include <cstdlib>
 
-#include <string.h>
-#include <unistd.h>
-#include <sys/time.h>
+#include <chrono>
+#include <mutex>
+#include <thread>
 
 #include <ne_uri.h>
 
@@ -284,31 +284,23 @@ MusicBrainz5::CRelease MusicBrainz5::CQuery::LookupRelease(const std::string& Re
 	return Release;
 }
 
+// Last request time and its mutex
+using TimePoint=std::chrono::steady_clock::time_point;
+static TimePoint LastRequestTime=TimePoint::clock::now();
+static std::mutex LastRequestTimeMutex;
+
 void MusicBrainz5::CQuery::WaitRequest() const
 {
 	if (m_d->m_Server.find("musicbrainz.org")!=std::string::npos)
 	{
-		static struct timeval LastRequest;
-		const int TimeBetweenRequests=2;
-
-		struct timeval TimeNow;
-		gettimeofday(&TimeNow,0);
-
-		if (LastRequest.tv_sec!=0 || LastRequest.tv_usec!=0)
+		std::unique_lock<std::mutex> Lock(LastRequestTimeMutex);
+		TimePoint TimeNow=TimePoint::clock::now();
+		while (LastRequestTime+std::chrono::seconds(2) >= TimeNow)
 		{
-			struct timeval Diff;
-
-			do
-			{
-				gettimeofday(&TimeNow,0);
-				timersub(&TimeNow,&LastRequest,&Diff);
-
-				if (Diff.tv_sec<TimeBetweenRequests)
-					usleep(100000);
-			}	while (Diff.tv_sec<TimeBetweenRequests);
+			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+			TimeNow=TimePoint::clock::now();
 		}
-
-		memcpy(&LastRequest,&TimeNow,sizeof(LastRequest));
+		LastRequestTime = TimeNow;
 	}
 }
 
