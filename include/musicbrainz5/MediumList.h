@@ -29,13 +29,14 @@
 #include <string>
 #include <iostream>
 
+#include "musicbrainz5/Medium.h"
+
 #include "musicbrainz5/ListImpl.h"
 
 #include "musicbrainz5/xmlParser.h"
 
 namespace MusicBrainz5
 {
-	class CMedium;
 	class CMediumListPrivate;
 
 	class CMediumList: public CListImpl<CMedium>

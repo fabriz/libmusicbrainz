@@ -29,13 +29,14 @@
 #include <string>
 #include <iostream>
 
+#include "musicbrainz5/SecondaryType.h"
+
 #include "musicbrainz5/ListImpl.h"
 
 #include "musicbrainz5/xmlParser.h"
 
 namespace MusicBrainz5
 {
-	class CSecondaryType;
 	class CSecondaryTypeListPrivate;
 
 	class CSecondaryTypeList: public CListImpl<CSecondaryType>

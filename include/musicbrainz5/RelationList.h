@@ -29,13 +29,14 @@
 #include <string>
 #include <iostream>
 
+#include "musicbrainz5/Relation.h"
+
 #include "musicbrainz5/ListImpl.h"
 
 #include "musicbrainz5/xmlParser.h"
 
 namespace MusicBrainz5
 {
-	class CRelation;
 	class CRelationListPrivate;
 
 	class CRelationList: public CListImpl<CRelation>

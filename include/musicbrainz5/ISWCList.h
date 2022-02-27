@@ -29,13 +29,14 @@
 #include <string>
 #include <iostream>
 
+#include "musicbrainz5/ISWC.h"
+
 #include "musicbrainz5/ListImpl.h"
 
 #include "musicbrainz5/xmlParser.h"
 
 namespace MusicBrainz5
 {
-	class CISWC;
 	class CISWCListPrivate;
 
 	class CISWCList: public CListImpl<CISWC>
