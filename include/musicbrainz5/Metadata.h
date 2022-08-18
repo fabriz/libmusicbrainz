@@ -35,6 +35,7 @@
 #include "musicbrainz5/ReleaseGroupList.h"
 #include "musicbrainz5/RecordingList.h"
 #include "musicbrainz5/LabelList.h"
+#include "musicbrainz5/GenreList.h"
 #include "musicbrainz5/AnnotationList.h"
 #include "musicbrainz5/CDStubList.h"
 #include "musicbrainz5/FreeDBDiscList.h"
@@ -55,6 +56,7 @@ namespace MusicBrainz5
 	class CReleaseGroup;
 	class CRecording;
 	class CLabel;
+	class CGenre;
 	class CPUID;
 	class CISRC;
 	class CDisc;
@@ -85,6 +87,7 @@ namespace MusicBrainz5
 		CReleaseGroup *ReleaseGroup() const;
 		CRecording *Recording() const;
 		CLabel *Label() const;
+		CGenre *Genre() const;
 		CWork *Work() const;
 		CPUID *PUID() const;
 		CISRC *ISRC() const;
@@ -98,6 +101,7 @@ namespace MusicBrainz5
 		CReleaseGroupList *ReleaseGroupList() const;
 		CRecordingList *RecordingList() const;
 		CLabelList *LabelList() const;
+		CGenreList *GenreList() const;
 		CWorkList *WorkList() const;
 		CISRCList *ISRCList() const;
 		CAnnotationList *AnnotationList() const;

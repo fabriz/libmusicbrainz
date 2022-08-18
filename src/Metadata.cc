@@ -38,6 +38,8 @@
 #include "musicbrainz5/RecordingList.h"
 #include "musicbrainz5/Label.h"
 #include "musicbrainz5/LabelList.h"
+#include "musicbrainz5/Genre.h"
+#include "musicbrainz5/GenreList.h"
 #include "musicbrainz5/Work.h"
 #include "musicbrainz5/WorkList.h"
 #include "musicbrainz5/PUID.h"
@@ -71,6 +73,7 @@ class MusicBrainz5::CMetadataPrivate
 			m_ReleaseGroup(0),
 			m_Recording(0),
 			m_Label(0),
+			m_Genre(0),
 			m_Work(0),
 			m_PUID(0),
 			m_ISRC(0),
@@ -84,6 +87,7 @@ class MusicBrainz5::CMetadataPrivate
 			m_ReleaseGroupList(0),
 			m_RecordingList(0),
 			m_LabelList(0),
+			m_GenreList(0),
 			m_WorkList(0),
 			m_ISRCList(0),
 			m_AnnotationList(0),
@@ -106,6 +110,7 @@ class MusicBrainz5::CMetadataPrivate
 		CReleaseGroup *m_ReleaseGroup;
 		CRecording *m_Recording;
 		CLabel *m_Label;
+		CGenre *m_Genre;
 		CWork *m_Work;
 		CPUID *m_PUID;
 		CISRC *m_ISRC;
@@ -119,6 +124,7 @@ class MusicBrainz5::CMetadataPrivate
 		CReleaseGroupList *m_ReleaseGroupList;
 		CRecordingList *m_RecordingList;
 		CLabelList *m_LabelList;
+		CGenreList *m_GenreList;
 		CWorkList *m_WorkList;
 		CISRCList *m_ISRCList;
 		CAnnotationList *m_AnnotationList;
@@ -178,6 +184,9 @@ MusicBrainz5::CMetadata& MusicBrainz5::CMetadata::operator =(const CMetadata& Ot
 		if (Other.m_d->m_Label)
 			m_d->m_Label=new CLabel(*Other.m_d->m_Label);
 
+		if (Other.m_d->m_Genre)
+			m_d->m_Genre=new CGenre(*Other.m_d->m_Genre);
+
 		if (Other.m_d->m_Work)
 			m_d->m_Work=new CWork(*Other.m_d->m_Work);
 
@@ -216,6 +225,9 @@ MusicBrainz5::CMetadata& MusicBrainz5::CMetadata::operator =(const CMetadata& Ot
 
 		if (Other.m_d->m_LabelList)
 			m_d->m_LabelList=new CLabelList(*Other.m_d->m_LabelList);
+
+		if (Other.m_d->m_GenreList)
+			m_d->m_GenreList=new CGenreList(*Other.m_d->m_GenreList);
 
 		if (Other.m_d->m_WorkList)
 			m_d->m_WorkList=new CWorkList(*Other.m_d->m_WorkList);
@@ -275,6 +287,9 @@ void MusicBrainz5::CMetadata::Cleanup()
 	delete m_d->m_Label;
 	m_d->m_Label=0;
 
+	delete m_d->m_Genre;
+	m_d->m_Genre=0;
+
 	delete m_d->m_Work;
 	m_d->m_Work=0;
 
@@ -313,6 +328,9 @@ void MusicBrainz5::CMetadata::Cleanup()
 
 	delete m_d->m_LabelList;
 	m_d->m_LabelList=0;
+
+	delete m_d->m_GenreList;
+	m_d->m_GenreList=0;
 
 	delete m_d->m_WorkList;
 	m_d->m_WorkList=0;
@@ -392,6 +410,10 @@ void MusicBrainz5::CMetadata::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_Label);
 	}
+	else if ("genre"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_Genre);
+	}
 	else if ("work"==NodeName)
 	{
 		ProcessItem(Node,m_d->m_Work);
@@ -439,6 +461,10 @@ void MusicBrainz5::CMetadata::ParseElement(const XMLNode& Node)
 	else if ("label-list"==NodeName)
 	{
 		ProcessItem(Node,m_d->m_LabelList);
+	}
+	else if ("genre-list"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_GenreList);
 	}
 	else if ("work-list"==NodeName)
 	{
@@ -538,6 +564,11 @@ MusicBrainz5::CLabel *MusicBrainz5::CMetadata::Label() const
 	return m_d->m_Label;
 }
 
+MusicBrainz5::CGenre *MusicBrainz5::CMetadata::Genre() const
+{
+	return m_d->m_Genre;
+}
+
 MusicBrainz5::CWork *MusicBrainz5::CMetadata::Work() const
 {
 	return m_d->m_Work;
@@ -601,6 +632,11 @@ MusicBrainz5::CRecordingList *MusicBrainz5::CMetadata::RecordingList() const
 MusicBrainz5::CLabelList *MusicBrainz5::CMetadata::LabelList() const
 {
 	return m_d->m_LabelList;
+}
+
+MusicBrainz5::CGenreList *MusicBrainz5::CMetadata::GenreList() const
+{
+	return m_d->m_GenreList;
 }
 
 MusicBrainz5::CWorkList *MusicBrainz5::CMetadata::WorkList() const
@@ -679,6 +715,9 @@ std::ostream& MusicBrainz5::CMetadata::Serialise(std::ostream& os) const
 	if (Label())
 		os << *Label() << std::endl;
 
+	if (Genre())
+		os << *Genre() << std::endl;
+
 	if (Work())
 		os << *Work() << std::endl;
 
@@ -714,6 +753,9 @@ std::ostream& MusicBrainz5::CMetadata::Serialise(std::ostream& os) const
 
 	if (LabelList())
 		os << *LabelList() << std::endl;
+
+	if (GenreList())
+		os << *GenreList() << std::endl;
 
 	if (WorkList())
 		os << *WorkList() << std::endl;

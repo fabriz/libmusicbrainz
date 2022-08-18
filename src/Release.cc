@@ -33,6 +33,7 @@
 #include "musicbrainz5/TextRepresentation.h"
 #include "musicbrainz5/ArtistCredit.h"
 #include "musicbrainz5/ReleaseGroup.h"
+#include "musicbrainz5/CoverArt.h"
 #include "musicbrainz5/Medium.h"
 #include "musicbrainz5/LabelInfoList.h"
 #include "musicbrainz5/LabelInfo.h"
@@ -41,6 +42,8 @@
 #include "musicbrainz5/Relation.h"
 #include "musicbrainz5/MediumList.h"
 #include "musicbrainz5/Medium.h"
+#include "musicbrainz5/GenreList.h"
+#include "musicbrainz5/Genre.h"
 #include "musicbrainz5/Collection.h"
 #include "musicbrainz5/CollectionList.h"
 
@@ -51,9 +54,11 @@ class MusicBrainz5::CReleasePrivate
 		:	m_TextRepresentation(0),
 			m_ArtistCredit(0),
 			m_ReleaseGroup(0),
+			m_CoverArt(0),
 			m_LabelInfoList(0),
 			m_MediumList(0),
 			m_RelationListList(0),
+			m_GenreList(0),
 			m_CollectionList(0)
 		{
 		}
@@ -71,9 +76,11 @@ class MusicBrainz5::CReleasePrivate
 		std::string m_Country;
 		std::string m_Barcode;
 		std::string m_ASIN;
+		CCoverArt *m_CoverArt;
 		CLabelInfoList *m_LabelInfoList;
 		CMediumList *m_MediumList;
 		CRelationListList *m_RelationListList;
+		CGenreList* m_GenreList;
 		CCollectionList *m_CollectionList;
 };
 
@@ -125,6 +132,9 @@ MusicBrainz5::CRelease& MusicBrainz5::CRelease::operator =(const CRelease& Other
 		m_d->m_Barcode=Other.m_d->m_Barcode;
 		m_d->m_ASIN=Other.m_d->m_ASIN;
 
+		if (Other.m_d->m_CoverArt)
+			m_d->m_CoverArt=new CCoverArt(*Other.m_d->m_CoverArt);
+
 		if (Other.m_d->m_LabelInfoList)
 			m_d->m_LabelInfoList=new CLabelInfoList(*Other.m_d->m_LabelInfoList);
 
@@ -133,6 +143,9 @@ MusicBrainz5::CRelease& MusicBrainz5::CRelease::operator =(const CRelease& Other
 
 		if (Other.m_d->m_RelationListList)
 			m_d->m_RelationListList=new CRelationListList(*Other.m_d->m_RelationListList);
+
+		if (Other.m_d->m_GenreList)
+			m_d->m_GenreList=new CGenreList(*Other.m_d->m_GenreList);
 
 		if (Other.m_d->m_CollectionList)
 			m_d->m_CollectionList=new CCollectionList(*Other.m_d->m_CollectionList);
@@ -159,6 +172,9 @@ void MusicBrainz5::CRelease::Cleanup()
 	delete m_d->m_ReleaseGroup;
 	m_d->m_ReleaseGroup=0;
 
+	delete m_d->m_CoverArt;
+	m_d->m_CoverArt=0;
+
 	delete m_d->m_LabelInfoList;
 	m_d->m_LabelInfoList=0;
 
@@ -167,6 +183,9 @@ void MusicBrainz5::CRelease::Cleanup()
 
 	delete m_d->m_RelationListList;
 	m_d->m_RelationListList=0;
+
+	delete m_d->m_GenreList;
+	m_d->m_GenreList=0;
 }
 
 MusicBrainz5::CRelease *MusicBrainz5::CRelease::Clone()
@@ -238,6 +257,10 @@ void MusicBrainz5::CRelease::ParseElement(const XMLNode& Node)
 	{
 		ProcessItem(Node,m_d->m_ASIN);
 	}
+	else if ("cover-art-archive"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_CoverArt);
+	}
 	else if ("label-info-list"==NodeName)
 	{
 		ProcessItem(Node,m_d->m_LabelInfoList);
@@ -249,6 +272,10 @@ void MusicBrainz5::CRelease::ParseElement(const XMLNode& Node)
 	else if ("relation-list"==NodeName)
 	{
 		ProcessRelationList(Node,m_d->m_RelationListList);
+	}
+	else if ("genre-list"==NodeName)
+	{
+		ProcessItem(Node,m_d->m_GenreList);
 	}
 	else if ("collection-list"==NodeName)
 	{
@@ -332,6 +359,11 @@ std::string MusicBrainz5::CRelease::ASIN() const
 	return m_d->m_ASIN;
 }
 
+MusicBrainz5::CCoverArt *MusicBrainz5::CRelease::CoverArt() const
+{
+	return m_d->m_CoverArt;
+}
+
 MusicBrainz5::CLabelInfoList *MusicBrainz5::CRelease::LabelInfoList() const
 {
 	return m_d->m_LabelInfoList;
@@ -345,6 +377,11 @@ MusicBrainz5::CMediumList *MusicBrainz5::CRelease::MediumList() const
 MusicBrainz5::CRelationListList *MusicBrainz5::CRelease::RelationListList() const
 {
 	return m_d->m_RelationListList;
+}
+
+MusicBrainz5::CGenreList *MusicBrainz5::CRelease::GenreList() const
+{
+	return m_d->m_GenreList;
 }
 
 MusicBrainz5::CCollectionList *MusicBrainz5::CRelease::CollectionList() const
@@ -397,6 +434,9 @@ std::ostream& MusicBrainz5::CRelease::Serialise(std::ostream& os) const
 	os << "\tBarcode:             " << Barcode() << std::endl;
 	os << "\tASIN:                " << ASIN() << std::endl;
 
+	if (CoverArt())
+		os << *CoverArt() << std::endl;
+
 	if (LabelInfoList())
 		os << *LabelInfoList() << std::endl;
 
@@ -405,6 +445,9 @@ std::ostream& MusicBrainz5::CRelease::Serialise(std::ostream& os) const
 
 	if (RelationListList())
 		os << *RelationListList() << std::endl;
+
+	if (GenreList())
+		os << *GenreList() << std::endl;
 
 	if (CollectionList())
 		os << *CollectionList() << std::endl;

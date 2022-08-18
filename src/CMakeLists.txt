@@ -7,8 +7,8 @@ INCLUDE_DIRECTORIES(
 	${LIBXML2_INCLUDE_DIR}
 )
 
-SET(_sources_cc Alias.cc Annotation.cc Artist.cc ArtistCredit.cc Attribute.cc CDStub.cc Collection.cc
-	Disc.cc Entity.cc FreeDBDisc.cc HTTPFetch.cc ISRC.cc Label.cc LabelInfo.cc Lifespan.cc List.cc
+SET(_sources_cc Alias.cc Annotation.cc Artist.cc ArtistCredit.cc Attribute.cc CDStub.cc Collection.cc CoverArt.cc
+	Disc.cc Entity.cc FreeDBDisc.cc Genre.cc HTTPFetch.cc ISRC.cc Label.cc LabelInfo.cc Lifespan.cc List.cc
 	Medium.cc MediumList.cc Message.cc Metadata.cc NameCredit.cc NonMBTrack.cc Offset.cc PUID.cc
 	Query.cc Rating.cc Recording.cc Relation.cc RelationList.cc Release.cc ReleaseGroup.cc Tag.cc
 	TextRepresentation.cc Track.cc UserRating.cc UserTag.cc Work.cc xmlParser.cc

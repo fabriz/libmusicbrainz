@@ -88,6 +88,7 @@ extern "C"
 		<property name="relationlist" uppername="RelationList" type="relationlist"/>
 		<property name="taglist" uppername="TagList" type="object"/>
 		<property name="usertaglist" uppername="UserTagList" type="object"/>
+		<property name="genrelist" uppername="GenreList" type="object"/>
 		<property name="rating" type="object"/>
 		<property name="userrating" uppername="UserRating" type="object"/>
 	</class>
@@ -111,6 +112,12 @@ extern "C"
 		<property name="editor" type="string"/>
 		<property name="releaselist" uppername="ReleaseList" type="object"/>
 	</class>
+	<class name="coverart" uppername="CoverArt">
+		<property name="artwork" type="integer"/>
+		<property name="count" type="integer"/>
+		<property name="front" type="integer"/>
+		<property name="back" type="integer"/>
+	</class>
 	<class name="disc">
 		<property name="id" uppername="ID" type="string"/>
 		<property name="sectors" type="integer"/>
@@ -124,6 +131,11 @@ extern "C"
 		<property name="category" type="string"/>
 		<property name="year" type="string"/>
 		<property name="nonmbtracklist" uppername="NonMBTrackList" type="object"/>
+	</class>
+	<class name="genre">
+		<property name="id" uppername="ID" type="string"/>
+		<property name="count" type="integer"/>
+		<property name="name" type="string"/>
 	</class>
 	<class name="ipi" uppername="IPI">
 		<property name="ipi" uppername="IPI" type="string"/>
@@ -184,6 +196,7 @@ extern "C"
 		<property name="releasegroup" uppername="ReleaseGroup" type="object"/>
 		<property name="recording" type="object"/>
 		<property name="label" type="object"/>
+		<property name="genre" type="object"/>
 		<property name="work" type="object"/>
 		<property name="puid" uppername="PUID" type="object"/>
 		<property name="isrc" uppername="ISRC" type="object"/>
@@ -197,6 +210,7 @@ extern "C"
 		<property name="releasegrouplist" uppername="ReleaseGroupList" type="object"/>
 		<property name="recordinglist" uppername="RecordingList" type="object"/>
 		<property name="labellist" uppername="LabelList" type="object"/>
+		<property name="genrelist" uppername="GenreList" type="object"/>
 		<property name="worklist" uppername="WorkList" type="object"/>
 		<property name="isrclist" uppername="ISRCList" type="object"/>
 		<property name="annotationlist" uppername="AnnotationList" type="object"/>
@@ -281,9 +295,11 @@ extern "C"
 		<property name="country" type="string"/>
 		<property name="barcode" type="string"/>
 		<property name="asin" uppername="ASIN" type="string"/>
+		<property name="coverart" uppername="CoverArt" type="object"/>
 		<property name="labelinfolist" uppername="LabelInfoList" type="object"/>
 		<property name="mediumlist" uppername="MediumList" type="object"/>
 		<property name="relationlist" uppername="RelationList" type="relationlist"/>
+		<property name="genrelist" uppername="GenreList" type="object"/>
 		<property name="collectionlist" uppername="CollectionList" type="object"/>
 	</class>
 	<boilerplate target="include" file="c-int-release-defines.inc"/>
@@ -299,6 +315,7 @@ extern "C"
 		<property name="relationlist" uppername="RelationList" type="relationlist"/>
 		<property name="taglist" uppername="TagList" type="object"/>
 		<property name="usertaglist" uppername="UserTagList" type="object"/>
+		<property name="genrelist" uppername="GenreList" type="object"/>
 		<property name="rating" type="object"/>
 		<property name="userrating" uppername="UserRating" type="object"/>
 		<property name="secondarytypelist" uppername="SecondaryTypeList" type="object"/>
@@ -351,6 +368,7 @@ extern "C"
 	<list name="collection"/>
 	<list name="disc"/>
 	<list name="freedbdisc" uppername="FreeDBDisc"/>
+	<list name="genre"/>
 	<list name="ipi" uppername="IPI"/>
 	<list name="isrc" uppername="ISRC"/>
 	<list name="iswc" uppername="ISWC"/>

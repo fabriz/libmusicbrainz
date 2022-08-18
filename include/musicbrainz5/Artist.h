@@ -40,6 +40,7 @@
 #include "musicbrainz5/RelationList.h"
 #include "musicbrainz5/TagList.h"
 #include "musicbrainz5/UserTagList.h"
+#include "musicbrainz5/GenreList.h"
 
 #include "musicbrainz5/xmlParser.h"
 
@@ -78,6 +79,7 @@ namespace MusicBrainz5
 		CRelationListList *RelationListList() const;
 		CTagList *TagList() const;
 		CUserTagList *UserTagList() const;
+		CGenreList* GenreList() const;
 		CRating *Rating() const;
 		CUserRating *UserRating() const;
 
